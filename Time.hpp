@@ -11,8 +11,6 @@
 
 namespace fort {
 
-namespace myrmidon {
-
 // The time ellapsed between two <Time>
 //
 // A <myrmidon::Duration> could be negative. Why not using
@@ -202,7 +200,7 @@ public:
 	//
 	// Multiplies two <myrmidon::Duration>.
 	// @return a new duration `this * other `
-	inline Duration operator*(const fort::myrmidon::Duration & other) const {
+	inline Duration operator*(const fort::Duration & other) const {
 		return d_nanoseconds * other.d_nanoseconds;
 	}
 
@@ -211,7 +209,7 @@ public:
 	//
 	// Substracts two <myrmidon::Duration>.
 	// @return a new duration `this - other `
-	inline Duration operator-(const fort::myrmidon::Duration & other) const {
+	inline Duration operator-(const fort::Duration & other) const {
 		return d_nanoseconds - other.d_nanoseconds;
 	}
 
@@ -704,9 +702,6 @@ private:
 	MonoclockID d_monoID;
 };
 
-
-} // namespace myrmidon
-
 } // namespace fort
 
 
@@ -716,8 +711,8 @@ private:
 // @b the <fort::myrmidon::Duration> to multiply
 //
 // @return `a*b`
-inline fort::myrmidon::Duration operator*(int64_t a,
-                                          const fort::myrmidon::Duration & b) {
+inline fort::Duration operator*(int64_t a,
+                                const fort::Duration & b) {
 	return a * b.Nanoseconds();
 }
 
@@ -737,7 +732,7 @@ inline fort::myrmidon::Duration operator*(int64_t a,
 // @return a reference to <out>
 
 std::ostream & operator<<(std::ostream & out,
-                          const fort::myrmidon::Duration & d);
+                          const fort::Duration & d);
 
 // Formats to RFC 3339 date string format
 // @out the output iostream
@@ -750,4 +745,4 @@ std::ostream & operator<<(std::ostream & out,
 //
 // @return a reference to <out>
 std::ostream & operator<<(std::ostream & out,
-                          const fort::myrmidon::Time & t);
+                          const fort::Time & t);

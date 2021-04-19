@@ -15,7 +15,6 @@
 	}while(0)
 
 namespace fort {
-namespace myrmidon {
 
 using nanos = std::chrono::duration<uint64_t,std::nano>;
 
@@ -488,11 +487,10 @@ std::string Time::Format() const {
 	return google::protobuf::util::TimeUtil::ToString(ToTimestamp());
 }
 
-} // namespace myrmidon
 } // namespace fort
 
 std::ostream & operator<<(std::ostream & out,
-                          const fort::myrmidon::Duration & d) {
+                          const fort::Duration & d) {
 
 	int64_t ns = d.Nanoseconds();
 	if ( ns == 0 ) {
@@ -509,20 +507,20 @@ std::ostream & operator<<(std::ostream & out,
 		ns = -ns;
 	}
 
-	if ( ns < fort::myrmidon::Duration::Microsecond.Nanoseconds() ) {
+	if ( ns < fort::Duration::Microsecond.Nanoseconds() ) {
 		return out << sign << ns << "ns";
 	}
 
-	if ( ns < fort::myrmidon::Duration::Millisecond.Nanoseconds() ) {
+	if ( ns < fort::Duration::Millisecond.Nanoseconds() ) {
 		return out << d.Microseconds() << "µs";
 	}
 
-	if ( ns < fort::myrmidon::Duration::Second.Nanoseconds() ) {
+	if ( ns < fort::Duration::Second.Nanoseconds() ) {
 		return out << d.Milliseconds() << "ms";
 	}
 
 	int64_t minutes = ns / int64_t(60000000000LL);
-	double seconds = fort::myrmidon::Duration(ns % 60000000000LL).Seconds();
+	double seconds = fort::Duration(ns % 60000000000LL).Seconds();
 
 	if ( minutes == 0 ) {
 		return out << d.Seconds() << "s";
@@ -545,6 +543,6 @@ std::ostream & operator<<(std::ostream & out,
 
 
 std::ostream & operator<<(std::ostream & out,
-                          const fort::myrmidon::Time & t) {
+                          const fort::Time & t) {
 	return out << t.Format();
 }
