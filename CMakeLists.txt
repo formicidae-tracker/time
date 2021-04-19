@@ -26,6 +26,9 @@ fetch_google_test(VERSION release-1.10.0)
 include(GoogleTest)
 
 enable_testing()
+set(MAKE_CHECK_TEST_COMMAND ${CMAKE_CTEST_COMMAND} -V)
+add_custom_target(check COMMAND ${MAKE_CHECK_TEST_COMMAND})
+
 
 include_directories(${PROTOBUF_INCLUDE_DIRS})
 
@@ -36,8 +39,11 @@ target_link_libraries(fort-time ${PROTOBUF_LIBRARIES})
 set_target_properties(fort-time PROPERTIES VERSION ${VERSION_API}
                                           SOVERSION ${VERSION_ABI})
 
+
+
 add_executable(fort-time-tests TimeUTest.hpp TimeUTest.cpp main-check.cpp)
 
 target_link_libraries(fort-time-tests fort-time gtest)
 
 add_test(NAME fort-time-tests COMMAND fort-time-tests)
+add_dependencies(check fort-time-tests)
