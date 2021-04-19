@@ -1,0 +1,14 @@
+set(FORT_TIME_VERSION @PROJECT_VERSION@)
+
+find_package(Protobuf 3.3.0 REQUIRED)
+
+@PACKAGE_INIT@
+
+set_and_check(FORT_TIME_INCLUDE_DIR "@PACKAGE_INCLUDE_PATH@")
+set(FORT_TIME_INCLUDE_DIRS ${FORT_TIME_INCLUDE_DIR}
+                           ${Protobuf_INCLUDE_DIRS}
+                           )
+set_and_check(FORT_TIME_LIBRARY "@PACKAGE_LIB_INSTALL_DIR@/@CMAKE_SHARED_LIBRARY_PREFIX@fort-time@CMAKE_SHARED_LIBRARY_SUFFIX@")
+set(FORT_TIME_LIBRARIES ${FORT_TIME_LIBRARY} ${PROTOBUF_LIBRARIES})
+
+check_required_components(FortTime)

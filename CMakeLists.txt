@@ -40,11 +40,11 @@ setup_target_for_coverage(NAME fort-time-coverage
 						                -f ${PROJECT_SOURCE_DIR}/Time.cpp)
 endif(ENABLE_COVERAGE)
 
-include_directories(${PROTOBUF_INCLUDE_DIRS})
+include_directories(${Protobuf_INCLUDE_DIRS})
 
-add_library(fort-time Time.cpp Time.hpp)
+add_library(fort-time SHARED Time.cpp Time.hpp)
 
-target_link_libraries(fort-time ${PROTOBUF_LIBRARIES})
+target_link_libraries(fort-time ${Protobuf_LIBRARIES})
 
 set_target_properties(fort-time PROPERTIES VERSION ${VERSION_API}
                                           SOVERSION ${VERSION_ABI})
@@ -57,3 +57,26 @@ target_link_libraries(fort-time-tests fort-time gtest)
 
 add_test(NAME fort-time-tests COMMAND fort-time-tests)
 add_dependencies(check fort-time-tests)
+
+
+set(INCLUDE_PATH include)
+set(INCLUDE_INSTALL_DIR ${INCLUDE_PATH}/fort/time)
+set(LIB_INSTALL_DIR lib)
+
+install(FILES Time.hpp DESTINATION ${INCLUDE_INSTALL_DIR})
+install(TARGETS fort-time DESTINATION ${LIB_INSTALL_DIR})
+
+
+include(CMakePackageConfigHelpers)
+configure_package_config_file(FortTimeConfig.cmake.in
+                              ${CMAKE_CURRENT_BINARY_DIR}/FortTimeConfig.cmake
+							  INSTALL_DESTINATION ${LIB_INSTALL_DIR}/FortTime/cmake
+							  PATH_VARS INCLUDE_INSTALL_DIR LIB_INSTALL_DIR INCLUDE_PATH)
+
+write_basic_package_version_file(${CMAKE_CURRENT_BINARY_DIR}/FortTimeConfigVersion.cmake
+                                 VERSION ${PROJECT_VERSION}
+								 COMPATIBILITY SameMajorVersion)
+
+install(FILES ${CMAKE_CURRENT_BINARY_DIR}/FortTimeConfig.cmake
+              ${CMAKE_CURRENT_BINARY_DIR}/FortTimeConfigVersion.cmake
+			  DESTINATION ${LIB_INSTALL_DIR}/FortTime/cmake )
