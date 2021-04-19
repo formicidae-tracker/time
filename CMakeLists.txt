@@ -29,6 +29,16 @@ enable_testing()
 set(MAKE_CHECK_TEST_COMMAND ${CMAKE_CTEST_COMMAND} -V)
 add_custom_target(check COMMAND ${MAKE_CHECK_TEST_COMMAND})
 
+option(ENABLE_COVERAGE Off "Enables code coverage")
+
+if(ENABLE_COVERAGE)
+include(CodeCoverage)
+enable_coverage()
+setup_target_for_coverage(NAME fort-time-coverage
+                          DEPENDENCIES check
+						  GCOVR_OPTIONS -f ${PROJECT_SOURCE_DIR}/Time.hpp
+						                -f ${PROJECT_SOURCE_DIR}/Time.cpp)
+endif(ENABLE_COVERAGE)
 
 include_directories(${PROTOBUF_INCLUDE_DIRS})
 
