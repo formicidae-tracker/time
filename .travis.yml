@@ -1,0 +1,31 @@
+language: cpp
+branches:
+  only:
+    - master
+
+notifications:
+  email: false
+
+dist: focal
+addons:
+  apt:
+    packages:
+      - libprotobuf-dev
+
+before_install:
+  - pip install --user cpp-coveralls
+
+script:
+  - mkdir -p build
+  - cd build
+  - cmake -DENABLE_COVERAGE=On -DCMAKE_BUILD_TYPE=DebWithRelInfo ..
+  - make all check
+  - cd ..
+
+after_success:
+  - coveralls -b build  -r . -i 'Time.cpp'
+
+cache:
+  ccache: true
+  directories:
+    - build
