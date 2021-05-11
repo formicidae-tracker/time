@@ -15,7 +15,6 @@ Licensed under LPGL-v3.
 
 
 
-
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
 [build-status-shield]: https://img.shields.io/travis/com/formicidae-tracker/time/master?style=flat-square
