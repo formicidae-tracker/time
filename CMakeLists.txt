@@ -20,20 +20,24 @@ fetch_google_test(VERSION release-1.10.0)
 
 include(GoogleTest)
 
-enable_testing()
-set(MAKE_CHECK_TEST_COMMAND ${CMAKE_CTEST_COMMAND} -V)
-add_custom_target(check COMMAND ${MAKE_CHECK_TEST_COMMAND})
+option(ENABLE_TESTS "Enables Tests" OFF)
+option(ENABLE_COVERAGE "Enables code coverage" OFF)
 
-option(ENABLE_COVERAGE Off "Enables code coverage")
+if(ENABLE_TESTS OR ENABLE_COVERAGE)
+	enable_testing()
+	set(MAKE_CHECK_TEST_COMMAND ${CMAKE_CTEST_COMMAND} -V)
+	add_custom_target(check COMMAND ${MAKE_CHECK_TEST_COMMAND})
 
-if(ENABLE_COVERAGE)
-include(CodeCoverage)
-enable_coverage()
-setup_target_for_coverage(NAME fort-time-coverage
-                          DEPENDENCIES check
-						  GCOVR_OPTIONS -f ${PROJECT_SOURCE_DIR}/Time.hpp
-						                -f ${PROJECT_SOURCE_DIR}/Time.cpp)
-endif(ENABLE_COVERAGE)
+
+	if(ENABLE_COVERAGE)
+		include(CodeCoverage)
+		enable_coverage()
+		setup_target_for_coverage(NAME fort-time-coverage
+		                          DEPENDENCIES check
+		                          GCOVR_OPTIONS -f ${PROJECT_SOURCE_DIR}/Time.hpp
+		                          -f ${PROJECT_SOURCE_DIR}/Time.cpp)
+	endif(ENABLE_COVERAGE)
+endif(ENABLE_TESTS OR ENABLE_COVERAGE)
 
 include_directories(${Protobuf_INCLUDE_DIRS})
 
@@ -44,14 +48,14 @@ target_link_libraries(fort-time ${Protobuf_LIBRARIES})
 set_target_properties(fort-time PROPERTIES VERSION ${PROJECT_VERSION_API}
                                           SOVERSION ${PROJECT_VERSION_ABI})
 
+if(ENABLE_TESTS OR ENABLE_COVERAGE)
+	add_executable(fort-time-tests TimeUTest.hpp TimeUTest.cpp main-check.cpp)
 
-add_executable(fort-time-tests TimeUTest.hpp TimeUTest.cpp main-check.cpp)
+	target_link_libraries(fort-time-tests fort-time gtest)
 
-target_link_libraries(fort-time-tests fort-time gtest)
-
-add_test(NAME fort-time-tests COMMAND fort-time-tests)
-add_dependencies(check fort-time-tests)
-
+	add_test(NAME fort-time-tests COMMAND fort-time-tests)
+	add_dependencies(check fort-time-tests)
+endif(ENABLE_TESTS OR ENABLE_COVERAGE)
 
 set(INCLUDE_PATH include)
 set(INCLUDE_INSTALL_DIR ${INCLUDE_PATH}/fort/time)
@@ -71,8 +75,8 @@ configure_package_config_file(FortTimeConfig.cmake.in
 
 write_basic_package_version_file(${CMAKE_CURRENT_BINARY_DIR}/FortTimeConfigVersion.cmake
                                  VERSION ${PROJECT_VERSION}
-								 COMPATIBILITY SameMajorVersion)
+                                 COMPATIBILITY SameMajorVersion)
 
 install(FILES ${CMAKE_CURRENT_BINARY_DIR}/FortTimeConfig.cmake
               ${CMAKE_CURRENT_BINARY_DIR}/FortTimeConfigVersion.cmake
-			  DESTINATION ${LIB_INSTALL_DIR}/FortTime/cmake )
+              DESTINATION ${LIB_INSTALL_DIR}/FortTime/cmake )
