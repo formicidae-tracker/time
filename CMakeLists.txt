@@ -56,8 +56,10 @@ add_dependencies(check fort-time-tests)
 set(INCLUDE_PATH include)
 set(INCLUDE_INSTALL_DIR ${INCLUDE_PATH}/fort/time)
 set(LIB_INSTALL_DIR lib)
+configure_file(version.hpp.in version.hpp @ONLY)
 
-install(FILES Time.hpp DESTINATION ${INCLUDE_INSTALL_DIR})
+
+install(FILES Time.hpp ${CMAKE_CURRENT_BINARY_DIR}/version.hpp DESTINATION ${INCLUDE_INSTALL_DIR})
 install(TARGETS fort-time DESTINATION ${LIB_INSTALL_DIR})
 
 

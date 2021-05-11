@@ -1,0 +1,4 @@
+#pragma once
+
+
+#define FORT_TIME_VERSION "@PROJECT_SEMVER@"
