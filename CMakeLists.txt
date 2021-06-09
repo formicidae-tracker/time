@@ -80,3 +80,9 @@ write_basic_package_version_file(${CMAKE_CURRENT_BINARY_DIR}/FortTimeConfigVersi
 install(FILES ${CMAKE_CURRENT_BINARY_DIR}/FortTimeConfig.cmake
               ${CMAKE_CURRENT_BINARY_DIR}/FortTimeConfigVersion.cmake
               DESTINATION ${LIB_INSTALL_DIR}/FortTime/cmake )
+
+
+option(BUILD_DOCS "Build documentation" Off)
+if(BUILD_DOCS)
+	add_subdirectory(docs)
+endif(BUILD_DOCS)
