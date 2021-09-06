@@ -20,6 +20,26 @@ fetch_google_test(VERSION release-1.10.0)
 
 include(GoogleTest)
 
+include(CheckCSourceCompiles)
+check_c_source_compiles("#include <time.h>
+int main() {
+  struct timespec wall;
+  clock_gettime(CLOCK_REALTIME,&wall);
+  return 0;
+}" NEED_NO_RT_LINK)
+if(NOT NEED_NO_RT_LINK)
+	set(CMAKE_REQUIRED_LIBRARIES "-lrt")
+	check_c_source_compiles("#include <time.h>
+int main() {
+  struct timespec wall;
+  clock_gettime(CLOCK_REALTIME,&wall);
+  return 0;
+}" NEED_RT_LINK)
+	if(NOT NEED_RT_LINK)
+		message(FATAL_ERROR "Could not clock_gettime()")
+	endif(NOT NEED_RT_LINK)
+endif(NOT NEED_NO_RT_LINK)
+
 
 enable_testing()
 if(NOT TARGET check)
@@ -43,6 +63,9 @@ include_directories(${Protobuf_INCLUDE_DIRS})
 add_library(fort-time SHARED Time.cpp Time.hpp)
 
 target_link_libraries(fort-time ${Protobuf_LIBRARIES})
+if(NEED_RT_LINK)
+	target_link_libraries(fort-time "-lrt")
+endif(NEED_RT_LINK)
 
 set_target_properties(fort-time PROPERTIES VERSION ${PROJECT_VERSION_API}
                                           SOVERSION ${PROJECT_VERSION_ABI})
