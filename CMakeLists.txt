@@ -4,21 +4,22 @@ cmake_minimum_required(VERSION 3.11)
 
 project(fort-time LANGUAGES C CXX)
 
-set(CMAKE_CXX_STANDARD 17)
-set(CMAKE_C_STANDARD 11)
+
+if(CMAKE_SOURCE_DIR STREQUAL PROJECT_SOURCE_DIR)
+	set(IS_MAIN TRUE)
+else(CMAKE_SOURCE_DIR STREQUAL PROJECT_SOURCE_DIR)
+	set(IS_MAIN FALSE)
+endif(CMAKE_SOURCE_DIR STREQUAL PROJECT_SOURCE_DIR)
 
 
 list(APPEND CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake)
+
+option(ENABLE_COVERAGE "Enable code coverage" Off)
+
 include(VersionFromGit)
 version_from_git()
 
 find_package(Protobuf 3.3.0 REQUIRED)
-
-include(FetchGoogleTest)
-
-fetch_google_test(VERSION release-1.10.0)
-
-include(GoogleTest)
 
 include(CheckCSourceCompiles)
 check_c_source_compiles("#include <time.h>
@@ -40,15 +41,23 @@ int main() {
 	endif(NOT NEED_RT_LINK)
 endif(NOT NEED_NO_RT_LINK)
 
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_C_STANDARD 11)
 
-enable_testing()
-if(NOT TARGET check)
+
+if(IS_MAIN)
+	include(FetchGoogleTest)
+	fetch_google_test(VERSION release-1.10.0)
+	include(GoogleTest)
+
+	enable_testing()
 	set(MAKE_CHECK_TEST_COMMAND ${CMAKE_CTEST_COMMAND} -V)
 	add_custom_target(check COMMAND ${MAKE_CHECK_TEST_COMMAND})
-endif(NOT TARGET check)
+endif(IS_MAIN)
 
-option(FORT_TIME_ENABLE_COVERAGE "Enable code coverage" Off)
-if(FORT_TIME_ENABLE_COVERAGE)
+if(IS_MAIN AND ENABLE_COVERAGE)
+	set(ENABLE_TESTS On)
+
 	include(CodeCoverage)
 	enable_coverage()
 	setup_target_for_coverage(NAME coverage
@@ -56,7 +65,7 @@ if(FORT_TIME_ENABLE_COVERAGE)
                               LCOV_OPTIONS --include ${PROJECT_SOURCE_DIR}/Time.hpp
                                            --include ${PROJECT_SOURCE_DIR}/Time.cpp
                                            )
-endif(FORT_TIME_ENABLE_COVERAGE)
+endif(IS_MAIN AND ENABLE_COVERAGE)
 
 include_directories(${Protobuf_INCLUDE_DIRS})
 
@@ -70,12 +79,14 @@ endif(NEED_RT_LINK)
 set_target_properties(fort-time PROPERTIES VERSION ${PROJECT_VERSION_API}
                                           SOVERSION ${PROJECT_VERSION_ABI})
 
-add_executable(fort-time-tests TimeUTest.hpp TimeUTest.cpp main-check.cpp)
+if(IS_MAIN)
+	add_executable(fort-time-tests TimeUTest.hpp TimeUTest.cpp main-check.cpp)
 
-target_link_libraries(fort-time-tests fort-time gtest)
+	target_link_libraries(fort-time-tests fort-time gtest)
 
-add_test(NAME fort-time-tests COMMAND fort-time-tests)
-add_dependencies(check fort-time-tests)
+	add_test(NAME fort-time-tests COMMAND fort-time-tests)
+	add_dependencies(check fort-time-tests)
+endif(IS_MAIN)
 
 set(INCLUDE_PATH include)
 set(INCLUDE_INSTALL_DIR ${INCLUDE_PATH}/fort/time)
