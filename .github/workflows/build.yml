@@ -1,0 +1,42 @@
+name: build
+on:
+  pull_request:
+    branches:
+      - master
+  push:
+    branches:
+      - master
+
+jobs:
+  run-tests-and-coverage:
+    runs-on: ubuntu-20.04
+    steps:
+        - name: Checkout
+          uses: actions/checkout@v2.0.0
+        - name: Get all git tags
+          run: git fetch --prune --unshallow --tags
+        - name: Install dependencies
+          run: sudo apt install build-essential git cmake libasio-dev libboost-dev libprotobuf-dev protobuf-compiler lcov
+        - name: Uses ccache
+          uses: hendrikmuhs/ccache-action@v1
+        - name: Configure
+          run: |
+            export PATH="/usr/lib/ccache:/usr/local/opt/ccache/libexec:$PATH"
+            cmake -B ${{github.workspace}}/build \
+               -DCMAKE_BUILD_TYPE=RelWithDebInfo \
+               -DENABLE_COVERAGE=On
+        - name: Build
+          working-directory: ${{github.workspace}}/build
+          run: |
+            export PATH="/usr/lib/ccache:/usr/local/opt/ccache/libexec:$PATH"
+            make all
+        - name: Test
+          run: make coverage
+          working-directory: ${{github.workspace}}/build
+        - name: Sends coverage
+          uses: codecov/codecov-action@v2
+          id: send-coverage
+          with:
+            directory: ${{github.workspace}}/build/coverage
+        - name: Does not need to be silent
+          run: echo ${{join(steps.send-coverage.outputs.*)}}
