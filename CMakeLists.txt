@@ -15,6 +15,8 @@ endif(CMAKE_SOURCE_DIR STREQUAL PROJECT_SOURCE_DIR)
 list(APPEND CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake)
 
 option(ENABLE_COVERAGE "Enable code coverage" Off)
+option(BUILD_DOCS "Build documentation" Off)
+
 
 include(VersionFromGit)
 version_from_git()
@@ -62,40 +64,16 @@ if(IS_MAIN AND ENABLE_COVERAGE)
 	enable_coverage()
 	setup_target_for_coverage(NAME coverage
                               DEPENDENCIES check
-                              LCOV_OPTIONS --include ${PROJECT_SOURCE_DIR}/Time.hpp
-                                           --include ${PROJECT_SOURCE_DIR}/Time.cpp
+                              LCOV_OPTIONS --include ${PROJECT_SOURCE_DIR}/src/fort/time/Time.hpp
+                                           --include ${PROJECT_SOURCE_DIR}/src/fort/time/Time.cpp
                                            )
 endif(IS_MAIN AND ENABLE_COVERAGE)
 
 include_directories(${Protobuf_INCLUDE_DIRS})
 
-add_library(fort-time SHARED Time.cpp Time.hpp)
-
-target_link_libraries(fort-time ${Protobuf_LIBRARIES})
-if(NEED_RT_LINK)
-	target_link_libraries(fort-time "-lrt")
-endif(NEED_RT_LINK)
-
-set_target_properties(fort-time PROPERTIES VERSION ${PROJECT_VERSION_API}
-                                          SOVERSION ${PROJECT_VERSION_ABI})
-
-if(IS_MAIN)
-	add_executable(fort-time-tests TimeUTest.hpp TimeUTest.cpp main-check.cpp)
-
-	target_link_libraries(fort-time-tests fort-time gtest)
-
-	add_test(NAME fort-time-tests COMMAND fort-time-tests)
-	add_dependencies(check fort-time-tests)
-endif(IS_MAIN)
-
 set(INCLUDE_PATH include)
 set(INCLUDE_INSTALL_DIR ${INCLUDE_PATH}/fort/time)
 set(LIB_INSTALL_DIR lib)
-configure_file(version.hpp.in version.hpp @ONLY)
-
-
-install(FILES Time.hpp ${CMAKE_CURRENT_BINARY_DIR}/version.hpp DESTINATION ${INCLUDE_INSTALL_DIR})
-install(TARGETS fort-time DESTINATION ${LIB_INSTALL_DIR})
 
 
 include(CMakePackageConfigHelpers)
@@ -113,7 +91,8 @@ install(FILES ${CMAKE_CURRENT_BINARY_DIR}/FortTimeConfig.cmake
               DESTINATION ${LIB_INSTALL_DIR}/FortTime/cmake )
 
 
-option(BUILD_DOCS "Build documentation" Off)
+add_subdirectory(src/fort/time)
+
 if(BUILD_DOCS)
 	add_subdirectory(docs)
 endif(BUILD_DOCS)
