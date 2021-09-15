@@ -27,23 +27,6 @@ namespace fort {
  * Duration d = 1 * Duration::Hour + 10 * Duration::Minute;
  * ```
  *
- * The bindings allows for the same semantic:
- *
- * For python:
- * ```python
- * import py_fort_myrmidon as fm
- *
- * a = 2*fm.Duration.Minute + 34 * fm.Duration.Second
- * print(a) # will show '2m34s'
- * ```
- *
- * or R:
- * ```R
- * library(FortMyrmidon)
- *
- * a <- fmMinute(2) + fmSecond(34)
- * str(a) # will show '2m34s'
- * ```
  */
 class Duration {
 public:
@@ -76,30 +59,12 @@ public:
 	/**
 	 * Gets the duration in hours
 	 *
-	 * * Python:
-	 * ```python
-	 * py_fort_myrmidon.Duration.Hours(self) -> float
-	 * ```
-	 * R:
-	 * ```R
-	 * fmDurationHours <-function(duration) # returns a numerical
-	 * ```
-	 *
 	 * @return the duration in hours
 	 */
 	double Hours() const;
 
 	/**
 	 * Gets the duration in minutes
-	 *
-	 * * Python:
-	 * ```python
-	 * py_fort_myrmidon.Duration.Minutes(self) -> float
-	 * ```
-	 * R:
-	 * ```R
-	 * fmDurationMinutes <-function(duration) # returns a numerical
-	 * ```
 	 *
 	 * @return the duration in minutes
 	 */
@@ -108,30 +73,12 @@ public:
 	/**
 	 * Gets the duration in seconds
 	 *
-	 * * Python:
-	 * ```python
-	 * py_fort_myrmidon.Duration.Seconds(self) -> float
-	 * ```
-	 * R:
-	 * ```R
-	 * fmDurationSeconds <-function(duration) # returns a numerical
-	 * ```
-	 *
 	 * @return the duration in seconds
 	 */
 	double Seconds() const;
 
 	/**
 	 * Gets the duration in milliseconds
-	 *
-	 * * Python:
-	 * ```python
-	 * py_fort_myrmidon.Duration.Milliseconds(self) -> float
-	 * ```
-	 * R:
-	 * ```R
-	 * fmDurationMilliseconds <-function(duration) # returns a numerical
-	 * ```
 	 *
 	 * @return the duration in milliseconds
 	 */
@@ -140,30 +87,12 @@ public:
 	/**
 	 * Gets the duration in microseconds
 	 *
-	 * * Python:
-	 * ```python
-	 * py_fort_myrmidon.Duration.Microseconds(self) -> float
-	 * ```
-	 * R:
-	 * ```R
-	 * fmDurationMicroseconds <-function(duration) # returns a numerical
-	 * ```
-	 *
 	 * @return the duration in microseconds
 	 */
 	double Microseconds() const;
 
 	/**
 	 * Gets the duration in nanoseconds
-	 *
-	 * * Python:
-	 * ```python
-	 * py_fort_myrmidon.Duration.Nanoseconds(self) -> int
-	 * ```
-	 * R:
-	 * ```R
-	 * fmDurationNanoseconds <-function(duration) # returns an integer
-	 * ```
 	 *
 	 * @return the duration in nanoseconds
 	 */
@@ -174,15 +103,6 @@ public:
 	/**
 	 *  Parses a string to a Duration
 	 *
-	 * * Python:
-	 * ```python
-	 * py_fort_myrmidon.Duration.Parse(d :str) -> py_fort_myrmidon.Duration
-	 * ```
-	 * * R:
-	 * ```
-	 * fmDurationParse <- function(d = '') # returns a Rcpp_fmDuration
-	 * ```
-
 	 * @param d the string to Parse in the form  `"2h"` or `"1m"`
 	 *
 	 * Parses a std::string to a Duration. string must be of the
@@ -200,70 +120,28 @@ public:
 
 	/**
 	 * The Value for an hour.
-	 *
-	 * * Python: `py_fort_myrmidon.Duration.Hour` read-only class variable
-	 * * R:
-	 * ```R
-	 * # we use a method to build an hour
-	 * fmHour(1)
-	 * ```
 	 */
 	const static Duration Hour;
 
 	/**
 	 * The Value for a minute.
-	 *
-	 * * Python: `py_fort_myrmidon.Duration.Minute` read-only class variable
-	 * * R:
-	 * ```R
-	 * # we use a method to build a minute
-	 * fmMinute(1)
-	 * ```
 	 */
 	const static Duration Minute;
 	/**
 	 * The Value for a second.
-	 *
-	 * * Python: `py_fort_myrmidon.Duration.Second` read-only class variable
-	 * * R:
-	 * ```R
-	 * # we use a method to build a second
-	 * fmSecond(1)
-	 * ```
 	 */
 	const static Duration Second;
 	/**
 	 * The Value for a millisecond.
-	 *
-	 * * Python: `py_fort_myrmidon.Duration.Millisecond` read-only class variable
-	 * * R:
-	 * ```R
-	 * # we use a method to build a millisecond
-	 * fmMillisecond(1)
-	 * ```
 	 */
 	const static Duration Millisecond;
 	/**
 	 * The Value for a microsecond.
-	 *
-	 * * Python: `py_fort_myrmidon.Duration.Microsecond` read-only class variable
-	 * * R:
-	 * ```R
-	 * # we use a method to build a microsecond
-	 * fmMicrosecond(1)
-	 * ```
 	 */
 	const static Duration Microsecond;
 
 	/**
 	 * The Value for a nanosecond.
-	 *
-	 * * Python: `py_fort_myrmidon.Duration.Nanosecond` read-only class variable
-	 * * R:
-	 * ```R
-	 * # we use a method to build a nanosecond
-	 * fmNanosecond(1)
-	 * ```
 	 */
 	const static Duration Nanosecond;
 
@@ -451,15 +329,6 @@ public:
 	/**
 	 * Returns the positive infinite Time
 	 *
-	 * * Python:
-	 * ```python
-	 * py_fort_myrmidon.Time.Forever() -> py_fort_myrmidon.Time
-	 * ```
-	 * * R:
-	 * ```R
-	 fmTimeForever <- function() # returns a Rcpp_fmTime
-	 * ```
-	 *
 	 * Returns the positive infinite Time. For any other Time value,
 	 * Before() will return `true`. Any computation with this value will
 	 * Overflow. Calling this method is the only to construct such
@@ -474,15 +343,6 @@ public:
 	/**
 	 * Returns the negative infinite Time
 	 *
-	 * * Python:
-	 * ```python
-	 * py_fort_myrmidon.Time.SinceEver() -> py_fort_myrmidon.Time
-	 * ```
-	 * * R:
-	 * ```R
-	 fmTimeSinceEver <- function() # returns a Rcpp_fmTime
-	 * ```
-	 *
 	 * Returns the negative infinite Time. For any other Time value,
 	 * After() will return `true`. Any computation with this value will
 	 * Overflow. Calling this method is the only to construct such
@@ -495,15 +355,6 @@ public:
 
 	/**
 	 * Gets the current Time
-	 *
-	 * * Python:
-	 * ```python
-	 * py_fort_myrmidon.Time.Now() -> py_fort_myrmidon.Time
-	 * ```
-	 * * R:
-	 * ```R
-	 fmTimeNow <- function() # returns a Rcpp_fmTime
-	 * ```
 	 *
 	 * Gets the current Time. This time will both have a wall and a
 	 * monotonic clock reading associated with the
@@ -527,8 +378,6 @@ public:
 	 * Creates a Time from `time_t`
 	 * @param t the time_t value
 	 *
-	 * \note this method have no python or R binding
-	 *
 	 * The Time will not have any monotonic clock value.
 	 *
 	 * @return the converted Time
@@ -540,8 +389,6 @@ public:
 	 * Creates a Time from `struct timeval`
 	 * @param t the `struct timeval`
 	 *
-	 * \note this method have no python or R binding
-	 *
 	 * The Time will not have any monotonic clock value.
 	 *
 	 * @return the converted Time
@@ -551,8 +398,6 @@ public:
 	/**
 	 * Creates a Time from a protobuf Timestamp
 	 * @param timestamp the `google.protobuf.Timestamp` message
-	 *
-	 * \note this method have no python or R binding
 	 *
 	 * The Time will not have any monotonic clock value.
 	 *
@@ -566,8 +411,6 @@ public:
 	 * @param seconds number of seconds since 1970-01-01T00:00:00.000Z
 	 * @param nanoseconds reminder of seconds since 1970-01-01T00:00:00.000Z
 	 *
-	 * \note this method have no python or R binding
-	 *
 	 * @return the corresponding Time
 	 */
 	static Time FromUnix(int64_t seconds,
@@ -578,8 +421,6 @@ public:
 	 * @param timestamp the `google.protobuf.Timestamp` message
 	 * @param nsecs the external monotonic value in nanoseconds
 	 * @param monoID the external monoID
-	 *
-	 * \note this method have no python or R binding
 	 *
 	 * Creates a Time from a protobuf Timestamp and an
 	 * external monotonic clock. The two values should correspond to
@@ -602,15 +443,6 @@ public:
 	/**
 	 * Parses from RFC 3339 date string format.
 	 *
-	 * * Python:
-	 * ```python
-	 * py_fort_myrmidon.Time.Parse(input: str) -> py_fort_myrmidon.Time
-	 * ```
-	 * * R:
-	 * ```R
-	 fmTimeParse <- function(input = '') # returns a Rcpp_fmTime
-	 * ```
-	 *
 	 * @param input the string to parse
 	 *
 	 * Parses from [RFC 3339](https: *www.ietf.org/rfc/rfc3339.txt)
@@ -628,16 +460,12 @@ public:
 	/**
 	 * Converts to a `time_t`
 	 *
-	 * \note this method have no python or R binding
-	 *
 	 * @return `time_t`representing the Time.
 	 */
 	time_t ToTimeT() const;
 
 	/**
 	 * Converts to a `struct timeval`
-	 *
-	 * \note this method have no python or R binding
 	 *
 	 * @return `struct timeval`representing the Time.
 	 */
@@ -646,8 +474,6 @@ public:
 	/**
 	 * Converts to a protobuf Timestamp message
 	 *
-	 * \note this method have no python or R binding
-	 *
 	 * @return the protobuf Timestamp representing the Time.
 	 */
 	google::protobuf::Timestamp ToTimestamp() const;
@@ -655,19 +481,12 @@ public:
 	/**
 	 * In-place conversion to a protobuf Timestamp
 	 *
-	 * \note this method have no python or R binding
-	 *
 	 * @param timestamp the timestamp to modify to represent the Time
 	 */
 	void ToTimestamp(google::protobuf::Timestamp * timestamp) const;
 
 	/**
-	 * Default constructor
-	 *
-	 * * Python: `py_fort_myrmidon.__init__(self)`
-	 * * R: `fmTime <- function() # return a Rcpp_fmTime`
-	 *
-	 * \note this method have no R binding
+	 * Default constructor to the system's epoch
 	 *
 	 * The resulting Time will represent the epoch.
 	 */
@@ -675,15 +494,6 @@ public:
 
 	/**
 	 * Adds a Duration to a Time
-	 *
-	 * * Python:
-	 * ```python
-	 * py_fort_myrmidon.Time.Add(self,input: py_fort_myrmidon.Duration) -> py_fort_myrmidon.Time
-	 * ```
-	 * * R:
-	 * ```R
-	 * fmTimeAdd <- function(time,duration = fmSecond(0.0)) # returns a Rcpp_fmTime
-	 * ```
 	 *
 	 * @param d the Duration to add
 	 *
@@ -696,15 +506,6 @@ public:
 
 	/**
 	 * Rounds a Time to a Duration
-	 *
-	 * * Python:
-	 * ```python
-	 * py_fort_myrmidon.Time.Round(self,duration: py_fort_myrmidon.Duration) -> py_fort_myrmidon.Time
-	 * ```
-	 * * R:
-	 * ```R
-	 * fmTimeRound <- function(time,duration = fmSecond(1.0)) # returns a Rcpp_fmTime
-	 * ```
 	 *
 	 * @param d the Duration to round to.
 	 *
@@ -721,15 +522,6 @@ public:
 	/**
 	 * Gets the Reminder of the division by a Duration
 	 *
-	 * * Python:
-	 * ```python
-	 * py_fort_myrmidon.Time.Reminder(self,duration: py_fort_myrmidon.Duration) -> py_fort_myrmidon.Duration
-	 * ```
-	 * * R:
-	 * ```R
-	 * fmTimeReminder <- function(time,duration = fmSecond(1.0)) # returns a Rcpp_fmDuration
-	 * ```
-	 *
 	 * @param d the Duration to divide by
 	 *
 	 * Finds the Duration which remains if this Time would be
@@ -745,12 +537,6 @@ public:
 	/**
 	 * Reports if this time is after t
 	 *
-	 * * Python:
-	 * ```python
-	 * py_fort_myrmidon.Time.After(self,time: py_fort_myrmidon.Time) -> bool
-	 * ```
-	 * * R: this function has no binding in R, use comparison operators
-	 *
 	 * @param t the Time to test against
 	 *
 	 * @return `true` if this Time is strictly after t
@@ -759,12 +545,6 @@ public:
 
 	/**
 	 * Reports if this time is before t
-	 *
-	 * * Python:
-	 * ```python
-	 * py_fort_myrmidon.Time.Before(self,time: py_fort_myrmidon.Time) -> bool
-	 * ```
-	 * * R: this function has no binding in R, use comparison operators
 	 *
 	 * @param t the Time to test against
 	 *
@@ -775,17 +555,7 @@ public:
 	/**
 	 * Reports if this time is the same than t 	 * * Python:
 	 *
-	 * * Python:
-	 * ```python
-	 * py_fort_myrmidon.Time.Equals(self,time: py_fort_myrmidon.Time) -> bool
-	 * ```
-	 * * R:
-	 * ```R
-	 * fmTimeEquals <- function(t1,t2) # returns a logical
-	 * ```
-	 *
 	 * @param t the Time to test against
-	 *
 	 *
 	 * @return `true` if this Time> is the same than t
 	 */
@@ -794,30 +564,12 @@ public:
 	/**
 	 * Reports if this Time is +∞
 	 *
-	 * * Python:
-	 * ```python
-	 * py_fort_myrmidon.Time.IsForever(self) -> bool
-	 * ```
-	 * * R:
-	 * ```R
-	 * fmTimeIsForever <- function(t1) # returns a logical
-	 * ```
-	 *
 	 * @return true if this Time is Forever()
 	 */
 	bool IsForever() const;
 
 	/**
 	 * Reports if this Time is -∞
-	 *
-	 * * Python:
-	 * ```python
-	 * py_fort_myrmidon.Time.IsSinceEver(self) -> bool
-	 * ```
-	 * * R:
-	 * ```R
-	 * fmTimeIsSinceEver <- function(time) # returns a logical
-	 * ```
 	 *
 	 * @return true if this Time is SinceEver()
 	 */
@@ -826,27 +578,12 @@ public:
 	/**
 	 * Reports if this Time is either Forever or SinceEver.
 	 *
-	 * * Python:
-	 *```python
-	 * py_fort_myrmidon.Time.IsInfinite(self) -> bool
-	 * ```
-	 * * R:
-	 * ```R
-	 * fmTimeIsInfinite <- function(time) # returns a logical
-	 * ```
-	 *
 	 * @return true if this Time is Forever() or SinceEver().
 	 */
 	bool IsInfinite() const;
 
 	/**
 	 * Computes time difference with another time.
-	 *
-	 * * Python:
-	 * ```python
-	 * py_fort_myrmidon.Time.Sub(self, time: py_fort_myrmidon.Time) -> py_fort_myrmidon.Duration
-	 * ```
-	 * * R: this function has no binding, use the minus operator on both time.
 	 *
 	 * @param t the Time to substract to this one.
 	 *
@@ -861,8 +598,6 @@ public:
 	/**
 	 * The current system monotonic clock.
 	 *
-	 * \note this method have no python or R binding.
-	 *
 	 * The MonoclockID reserved for the current system ( aka
 	 * `CLOCK_MONOTONIC`).
 	 */
@@ -870,8 +605,6 @@ public:
 
 	/**
 	 * Reports the presence of a monotonic time value.
-	 *
-	 * \note this method have no python or R binding.
 	 *
 	 * Reports the presence of a monotonic time value. Only
 	 * Time issued by Now() or FromTimestampAndMonotonic()
@@ -884,8 +617,6 @@ public:
 	/**
 	 * Gets the referred MonoclockID.
 	 *
-	 * \note this method have no python or R binding.
-	 *
 	 * @return the MonoclockID designating the monotonic clock the
 	 *         monotonic time value refers to.
 	 *
@@ -895,8 +626,6 @@ public:
 
 	/**
 	 * Gets the monotonic value.
-	 *
-	 * \note this method have no python or R binding.
 	 *
 	 * @return the monotonic clock value.
 	 *
@@ -908,16 +637,6 @@ public:
 	/**
 	 * Formats the Time as a RFC 3339 string.
 	 *
-	 * * Python:
-	 * ```python
-	 * py_fort_myrmidon.Time.__str__(self) -> str
-	 * ```
-	 * * R:
-	 * ```R
-	 * fmTimeFormat <- function(time) # returns a character
-	 * `show.Rcpp_fmTime` <- function(time)
-	 * ```
-	 *
 	 * @return a string representing this Time. Either using RFC 3339
 	 *         or +/-∞ if this Time::IsInfinite()
 	 */
@@ -925,14 +644,6 @@ public:
 
 	/**
 	 * Builds a debug string
-	 *
-	 * * Python:
-	 * ```python
-	 * py_fort_myrmidon.Time.__repr__(self) -> str
-	 * ```
-	 * * R:
-	 * ```R
-	 * ```
 	 *
 	 * This method is useful for internal debugging. Prefer the
 	 * standard c++ formatting operator on std::ostream or Format().
@@ -945,8 +656,6 @@ public:
 	 * Helpers to convert (sec,nsec) to nsec
 	 * @param sec the amount of second
 	 * @param nsec the amount of nanos
-	 *
-	 * \note this method has no python or R bindings
 	 *
 	 * @throws Overflow
 	 *
