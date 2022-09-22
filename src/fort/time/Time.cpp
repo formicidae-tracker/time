@@ -1,3 +1,6 @@
+#include <sstream>
+#include <iomanip>
+
 #include "Time.hpp"
 
 #include <time.h>
@@ -6,6 +9,7 @@
 #include <map>
 
 #include <google/protobuf/util/time_util.h>
+
 
 #define p_call(fnct,...) do {	  \
 		int fort_time_pcall_res ## fnct = fnct(__VA_ARGS__); \
