@@ -49,7 +49,7 @@ set(CMAKE_C_STANDARD 11)
 
 if(IS_MAIN)
 	include(FetchGoogleTest)
-	fetch_google_test(VERSION release-1.10.0)
+	fetch_google_test(VERSION release-1.12.1)
 	include(GoogleTest)
 
 	enable_testing()

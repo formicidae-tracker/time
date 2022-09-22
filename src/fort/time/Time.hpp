@@ -3,7 +3,7 @@
 #include <cstdint>
 #include <chrono>
 #include <string>
-#include <iostream>
+#include <sstream>
 #include <iomanip>
 #include <memory>
 
@@ -733,9 +733,6 @@ private:
 	MonoclockID d_monoID;
 };
 
-}  // namespace fort
-
-
 /**
  * Operator for fort::myrmidon::Duration multiplication
  * @param a a signed integer
@@ -780,3 +777,5 @@ std::ostream & operator<<(std::ostream & out,
  */
 std::ostream & operator<<(std::ostream & out,
                           const fort::Time & t);
+
+}  // namespace fort

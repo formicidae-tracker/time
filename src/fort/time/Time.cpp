@@ -487,8 +487,6 @@ std::string Time::Format() const {
 	return google::protobuf::util::TimeUtil::ToString(ToTimestamp());
 }
 
-} // namespace fort
-
 std::ostream & operator<<(std::ostream & out,
                           const fort::Duration & d) {
 
@@ -546,3 +544,5 @@ std::ostream & operator<<(std::ostream & out,
                           const fort::Time & t) {
 	return out << t.Format();
 }
+
+} // namespace fort

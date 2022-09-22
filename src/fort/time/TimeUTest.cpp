@@ -1,9 +1,10 @@
-#include "TimeUTest.hpp"
-
 #include "Time.hpp"
 
 #include <google/protobuf/util/time_util.h>
 #include <google/protobuf/util/message_differencer.h>
+
+#include "TimeUTest.hpp"
+
 
 
 ::testing::AssertionResult TimeEqual(const fort::Time & a,
@@ -129,22 +130,22 @@ TEST_F(TimeUTest,DurationParsing) {
 		   // This value tests the first overflow check in leadingFraction.
 		   {"0.830103483285477580700h", true, 49*Duration::Minute + 48*Duration::Second + 372539827*Duration::Nanosecond},
 
-		   	// errors
-		   	{"", false, 0},
-		   	{"3", false, 0},
-		   	{"-", false, 0},
-		   	{"s", false, 0},
-		   	{".", false, 0},
-		   	{"-.", false, 0},
-		   	{".s", false, 0},
-		   	{"+.s", false, 0},
-		   	{"3000000h", false, 0},                  // overflow
-		   	{"9223372036854775808ns", false, 0},     // overflow
-		   	{"9223372036854775.808us", false, 0},    // overflow
-		   	{"9223372036854ms775us808ns", false, 0}, // overflow
-		   	// largest negative value of type int64 in nanoseconds should fail
-		   	// see https://go-review.googlesource.com/#/c/2461/
-		   	{"-9223372036854775808ns", false, 0},
+		   // errors
+		   {"", false, 0},
+		   {"3", false, 0},
+		   {"-", false, 0},
+		   {"s", false, 0},
+		   {".", false, 0},
+		   {"-.", false, 0},
+		   {".s", false, 0},
+		   {"+.s", false, 0},
+		   {"3000000h", false, 0},                  // overflow
+		   {"9223372036854775808ns", false, 0},     // overflow
+		   {"9223372036854775.808us", false, 0},    // overflow
+		   {"9223372036854ms775us808ns", false, 0}, // overflow
+		   // largest negative value of type int64 in nanoseconds should fail
+		   // see https://go-review.googlesource.com/#/c/2461/
+		   {"-9223372036854775808ns", false, 0},
 	};
 
 	for ( const auto & d : data) {
