@@ -80,6 +80,7 @@ TEST_F(TimeUTest,DurationParsing) {
 	std::vector<TestData> data
 		= {
 		   {"0",true,0},
+		   {"0s",true,0},
 		   {"5s", true, 5 * Duration::Second},
 		   {"30s", true, 30 * Duration::Second},
 		   {"1478s", true, 1478 * Duration::Second},
