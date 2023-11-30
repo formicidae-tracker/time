@@ -70,7 +70,7 @@ set(CMAKE_C_STANDARD 11)
 
 if(NOT FORT_TIME_IMPORTED)
 	include(FetchContent)
-
+	set(INSTALL_GTEST Off)
 	FetchContent_Declare(
 		googletest
 		GIT_REPOSITORY https://github.com/google/googletest.git
