@@ -1,9 +1,27 @@
+// libfort-time - Time Utilities for the FORmicidae Tracker.
+//
+// Copyright (C) 2017-2023  Universitée de Lausanne.
+//
+//  This file is part of libfort-time.
+//
+// libfort-time is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// libfort-time is distributed in the hope that it will be useful, but WITHOUT
+// ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+// FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
+// details.
+//
+// You should have received a copy of the GNU General Public License along with
+// libfort-time.  If not, see <http://www.gnu.org/licenses/>.
 #pragma once
 
-#include <cstdint>
 #include <chrono>
-#include <string>
+#include <cstdint>
 #include <memory>
+#include <string>
 
 #include <google/protobuf/timestamp.pb.h>
 
@@ -34,13 +52,13 @@ public:
 	 * @param ns the number of nanosecond
 	 */
 	inline Duration(int64_t ns)
-		: d_nanoseconds(ns) {}
+	    : d_nanoseconds(ns) {}
+
 	/**
 	 * Default constructor with a zero duration.
 	 */
 	inline Duration()
-		: d_nanoseconds(0) {
-	}
+	    : d_nanoseconds(0) {}
 
 	/**
 	 * constructor from std::chrono::duration
@@ -49,10 +67,11 @@ public:
 	 * @tparam U second <std::chrono::duration> template
 	 * @param duration the <std::chrono::duration> to convert
 	 */
-	template <typename T,typename U>
-	Duration( const std::chrono::duration<T,U> & duration)
-		: d_nanoseconds(std::chrono::duration<int64_t,std::nano>(duration).count()) {}
-
+	template <typename T, typename U>
+	Duration(const std::chrono::duration<T, U> &duration)
+	    : d_nanoseconds(
+	          std::chrono::duration<int64_t, std::nano>(duration).count()
+	      ) {}
 
 	/**
 	 * Gets the duration in hours
@@ -113,8 +132,7 @@ public:
 	 *
 	 * @return the Duration represented by the string.
 	 */
-	static Duration Parse(const std::string & d);
-
+	static Duration Parse(const std::string &d);
 
 	/**
 	 * The Value for an hour.
@@ -152,7 +170,7 @@ public:
 	 *
 	 * @return a new duration `this + other `
 	 */
-	inline Duration operator+(const Duration & other) const {
+	inline Duration operator+(const Duration &other) const {
 		return d_nanoseconds + other.d_nanoseconds;
 	}
 
@@ -164,7 +182,7 @@ public:
 	 *
 	 * @return a new duration `this * other `
 	 */
-	inline Duration operator*(const fort::Duration & other) const {
+	inline Duration operator*(const fort::Duration &other) const {
 		return d_nanoseconds * other.d_nanoseconds;
 	}
 
@@ -175,7 +193,7 @@ public:
 	 * Substracts two Duration.
 	 * @return a new duration `this - other `
 	 */
-	inline Duration operator-(const fort::Duration & other) const {
+	inline Duration operator-(const fort::Duration &other) const {
 		return d_nanoseconds - other.d_nanoseconds;
 	}
 
@@ -196,7 +214,7 @@ public:
 	 *
 	 * @return `this < other`
 	 */
-	inline bool operator<( const Duration & other ) const {
+	inline bool operator<(const Duration &other) const {
 		return d_nanoseconds < other.d_nanoseconds;
 	}
 
@@ -207,7 +225,7 @@ public:
 	 * Compares two Duration.
 	 * @return `this <= other`
 	 */
-	inline bool operator<=( const Duration & other ) const {
+	inline bool operator<=(const Duration &other) const {
 		return d_nanoseconds <= other.d_nanoseconds;
 	}
 
@@ -219,7 +237,7 @@ public:
 	 * @return `this > other`
 	 */
 
-	inline bool operator>( const Duration & other ) const {
+	inline bool operator>(const Duration &other) const {
 		return d_nanoseconds > other.d_nanoseconds;
 	}
 
@@ -230,7 +248,7 @@ public:
 	 * Compares two Duration.
 	 * @return `this >= other`
 	 */
-	inline bool operator>=( const Duration & other ) const {
+	inline bool operator>=(const Duration &other) const {
 		return d_nanoseconds >= other.d_nanoseconds;
 	}
 
@@ -241,17 +259,15 @@ public:
 	 * Compares two Duration.
 	 * @return `this == other`
 	 */
-	inline bool operator==( const Duration & other ) const {
+	inline bool operator==(const Duration &other) const {
 		return d_nanoseconds == other.d_nanoseconds;
 	}
-
 
 private:
 	friend class Time;
 
 	int64_t d_nanoseconds;
 };
-
 
 /**
  *  A point in time
@@ -311,8 +327,9 @@ public:
 		 * Construct an overflow from a clocktype name
 		 * @param clocktype the clock type to use
 		 */
-		Overflow(const std::string & clocktype)
-			: std::runtime_error(clocktype + " value will overflow") {}
+		Overflow(const std::string &clocktype)
+		    : std::runtime_error(clocktype + " value will overflow") {}
+
 		/**
 		 * default destructor
 		 */
@@ -382,7 +399,6 @@ public:
 	 */
 	static Time FromTimeT(time_t t);
 
-
 	/**
 	 * Creates a Time from `struct timeval`
 	 * @param t the `struct timeval`
@@ -391,7 +407,7 @@ public:
 	 *
 	 * @return the converted Time
 	 */
-	static Time FromTimeval(const timeval & t);
+	static Time FromTimeval(const timeval &t);
 
 	/**
 	 * Creates a Time from a protobuf Timestamp
@@ -401,8 +417,7 @@ public:
 	 *
 	 * @return the converted Time
 	 */
-	static Time FromTimestamp(const google::protobuf::Timestamp & timestamp);
-
+	static Time FromTimestamp(const google::protobuf::Timestamp &timestamp);
 
 	/**
 	 * Creates a Time from Unix EPOCH
@@ -411,8 +426,7 @@ public:
 	 *
 	 * @return the corresponding Time
 	 */
-	static Time FromUnix(int64_t seconds,
-	                     int32_t nanoseconds);
+	static Time FromUnix(int64_t seconds, int32_t nanoseconds);
 
 	/**
 	 * Creates a Time from a protobuf Timestamp and an external Monotonic clock
@@ -434,9 +448,11 @@ public:
 	 * @return the converted Time with associated
 	 *         monotonic data
 	 */
-	static Time FromTimestampAndMonotonic(const google::protobuf::Timestamp & timestamp,
-	                                      uint64_t nsecs,
-	                                      MonoclockID monoID);
+	static Time FromTimestampAndMonotonic(
+	    const google::protobuf::Timestamp &timestamp,
+	    uint64_t                           nsecs,
+	    MonoclockID                        monoID
+	);
 
 	/**
 	 * Parses from RFC 3339 date string format.
@@ -453,7 +469,7 @@ public:
 	 *
 	 * @return the converted <myrmidon::Time>
 	 */
-	static Time Parse(const std::string & input);
+	static Time Parse(const std::string &input);
 
 	/**
 	 * Converts to a `time_t`
@@ -481,7 +497,7 @@ public:
 	 *
 	 * @param timestamp the timestamp to modify to represent the Time
 	 */
-	void ToTimestamp(google::protobuf::Timestamp * timestamp) const;
+	void ToTimestamp(google::protobuf::Timestamp *timestamp) const;
 
 	/**
 	 * Default constructor to the system's epoch
@@ -500,7 +516,7 @@ public:
 	 * @throws Overflow if the computation will go over the minimal or
 	 *         maximal representable Time.
 	 */
-	Time Add(const Duration & d) const;
+	Time Add(const Duration &d) const;
 
 	/**
 	 * Rounds a Time to a Duration
@@ -515,7 +531,7 @@ public:
 	 *
 	 * @return a new Time rounded to the wanted duration
 	 */
-	Time Round(const Duration & d) const;
+	Time Round(const Duration &d) const;
 
 	/**
 	 * Gets the Reminder of the division by a Duration
@@ -530,7 +546,7 @@ public:
 	 * @return a Duration that would remain if this Time would be
 	 *         divided by d
 	 */
-	Duration Reminder(const Duration & d) const;
+	Duration Reminder(const Duration &d) const;
 
 	/**
 	 * Reports if this time is after t
@@ -539,7 +555,7 @@ public:
 	 *
 	 * @return `true` if this Time is strictly after t
 	 */
-	bool After(const Time & t) const;
+	bool After(const Time &t) const;
 
 	/**
 	 * Reports if this time is before t
@@ -548,7 +564,7 @@ public:
 	 *
 	 * @return `true` if this Time is strictly before t
 	 */
-	bool Before(const Time & t) const;
+	bool Before(const Time &t) const;
 
 	/**
 	 * Reports if this time is the same than t 	 * * Python:
@@ -557,7 +573,7 @@ public:
 	 *
 	 * @return `true` if this Time> is the same than t
 	 */
-	bool Equals(const Time & t) const;
+	bool Equals(const Time &t) const;
 
 	/**
 	 * Reports if this Time is +∞
@@ -591,7 +607,7 @@ public:
 	 * @throws Overflow if the time Differance is larger than a signed
 	 *         64-bit amount of nanoseconds.
 	 */
-	Duration Sub(const Time & t) const;
+	Duration Sub(const Time &t) const;
 
 	/**
 	 * The current system monotonic clock.
@@ -667,7 +683,7 @@ public:
 	 *
 	 * @return `true` if `this == other`
 	 */
-	inline bool operator == (const Time & other ) const  {
+	inline bool operator==(const Time &other) const {
 		return Equals(other);
 	}
 
@@ -677,7 +693,7 @@ public:
 	 *
 	 * @return `true` if `this < other`
 	 */
-	inline bool operator < (const Time & other ) const  {
+	inline bool operator<(const Time &other) const {
 		return Before(other);
 	}
 
@@ -687,7 +703,7 @@ public:
 	 *
 	 * @return `true` if `this <= other`
 	 */
-	inline bool operator <= (const Time & other ) const  {
+	inline bool operator<=(const Time &other) const {
 		return !other.Before(*this);
 	}
 
@@ -697,7 +713,7 @@ public:
 	 *
 	 * @return `true` if `this > other`
 	 */
-	inline bool operator > (const Time & other ) const  {
+	inline bool operator>(const Time &other) const {
 		return other.Before(*this);
 	}
 
@@ -707,12 +723,11 @@ public:
 	 *
 	 * @return `true` if `this >= other`
 	 */
-	inline bool operator >= (const Time & other ) const  {
+	inline bool operator>=(const Time &other) const {
 		return !Before(other);
 	}
 
 private:
-
 	// Number of nanoseconds in a second.
 	const static uint64_t NANOS_PER_SECOND = 1000000000ULL;
 
@@ -723,12 +738,11 @@ private:
 
 	Time(int64_t wallsec, int32_t wallnsec, uint64_t mono, MonoclockID ID);
 
-
 	const static uint32_t HAS_MONO_BIT = 0x80000000ULL;
-	int64_t     d_wallSec;
-	int32_t     d_wallNsec;
-	uint64_t    d_mono;
-	MonoclockID d_monoID;
+	int64_t               d_wallSec;
+	int32_t               d_wallNsec;
+	uint64_t              d_mono;
+	MonoclockID           d_monoID;
 };
 
 /**
@@ -738,11 +752,9 @@ private:
  *
  * @return `a*b`
  */
-inline fort::Duration operator*(int64_t a,
-                                const fort::Duration & b) {
+inline fort::Duration operator*(int64_t a, const fort::Duration &b) {
 	return a * b.Nanoseconds();
 }
-
 
 /**
  * Formats a Duration
@@ -758,8 +770,7 @@ inline fort::Duration operator*(int64_t a,
  *
  * @return a reference to out
  */
-std::ostream & operator<<(std::ostream & out,
-                          const fort::Duration & d);
+std::ostream &operator<<(std::ostream &out, const fort::Duration &d);
 
 /**
  * Formats Time to RFC 3339 date string format
@@ -773,7 +784,6 @@ std::ostream & operator<<(std::ostream & out,
  *
  * @return a reference to out
  */
-std::ostream & operator<<(std::ostream & out,
-                          const fort::Time & t);
+std::ostream &operator<<(std::ostream &out, const fort::Time &t);
 
-}  // namespace fort
+} // namespace fort
