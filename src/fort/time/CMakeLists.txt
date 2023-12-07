@@ -31,7 +31,7 @@ set_target_properties(
 														${PROJECT_VERSION_ABI}
 )
 
-if(NOT FORT_TIME_IMPORTED)
+if(FORT_TIME_MAIN)
 	add_executable(fort-time-tests main-check.cpp TimeUTest.cpp TimeUTest.hpp)
 	target_link_libraries(fort-time-tests fort-time GTest::gtest_main)
 
@@ -40,14 +40,14 @@ if(NOT FORT_TIME_IMPORTED)
 		add_dependencies(check fort-time-tests)
 	endif(TARGET check)
 
-else(NOT FORT_TIME_IMPORTED)
-	add_library(fort-time::time INTERFACE IMPORTED GLOBAL)
+else(FORT_TIME_MAIN)
+	add_library(fort-time::libfort-time INTERFACE IMPORTED GLOBAL)
 	target_include_directories(
-		fort-time::time INTERFACE ${PROJECT_SOURCE_DIR}/src
-								  ${PROJECT_BINARY_DIR}/src
+		fort-time::libfort-time INTERFACE ${PROJECT_SOURCE_DIR}/src
+										  ${PROJECT_BINARY_DIR}/src
 	)
-	target_link_libraries(fort-time::time INTERFACE fort-time)
-endif(NOT FORT_TIME_IMPORTED)
+	target_link_libraries(fort-time::libfort-time INTERFACE fort-time)
+endif(FORT_TIME_MAIN)
 
 install(FILES Time.hpp ${CMAKE_CURRENT_BINARY_DIR}/version.hpp
 		DESTINATION ${INCLUDE_INSTALL_DIR}

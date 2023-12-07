@@ -23,16 +23,16 @@ cmake_minimum_required(VERSION 3.11)
 
 project(fort-time LANGUAGES C CXX)
 
-if(NOT CMAKE_SOURCE_DIR STREQUAL PROJECT_SOURCE_DIR)
-	set(FORT_TIME_IMPORTED 1)
-endif(NOT CMAKE_SOURCE_DIR STREQUAL PROJECT_SOURCE_DIR)
+if(CMAKE_SOURCE_DIR STREQUAL PROJECT_SOURCE_DIR)
+	set(FORT_TIME_MAIN 1)
+endif(CMAKE_SOURCE_DIR STREQUAL PROJECT_SOURCE_DIR)
 
 list(APPEND CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake)
 
-if(NOT FORT_TIME_IMPORTED)
+if(FORT_TIME_MAIN)
 	option(ENABLE_COVERAGE "Enable code coverage" Off)
 	option(BUILD_DOCS "Build documentation" Off)
-endif(NOT FORT_TIME_IMPORTED)
+endif(FORT_TIME_MAIN)
 
 include(VersionFromGit)
 version_from_git()
@@ -68,7 +68,7 @@ endif(NOT NEED_NO_RT_LINK)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_C_STANDARD 11)
 
-if(NOT FORT_TIME_IMPORTED)
+if(FORT_TIME_MAIN)
 	include(FetchContent)
 	set(INSTALL_GTEST Off)
 	FetchContent_Declare(
@@ -89,9 +89,9 @@ if(NOT FORT_TIME_IMPORTED)
 	enable_testing()
 	set(MAKE_CHECK_TEST_COMMAND ${CMAKE_CTEST_COMMAND} -V)
 	add_custom_target(check COMMAND ${MAKE_CHECK_TEST_COMMAND})
-endif(NOT FORT_TIME_IMPORTED)
+endif(FORT_TIME_MAIN)
 
-if((NOT FORT_TIME_IMPORTED) AND ENABLE_COVERAGE)
+if(FORT_TIME_MAIN AND ENABLE_COVERAGE)
 	set(ENABLE_TESTS On)
 
 	include(CodeCoverage)
@@ -107,7 +107,7 @@ if((NOT FORT_TIME_IMPORTED) AND ENABLE_COVERAGE)
 		--include
 		${PROJECT_SOURCE_DIR}/src/fort/time/Time.cpp
 	)
-endif((NOT FORT_TIME_IMPORTED) AND ENABLE_COVERAGE)
+endif(FORT_TIME_MAIN AND ENABLE_COVERAGE)
 
 set(INCLUDE_PATH include)
 set(INCLUDE_INSTALL_DIR ${INCLUDE_PATH}/fort/time)
@@ -133,6 +133,6 @@ install(FILES ${CMAKE_CURRENT_BINARY_DIR}/FortTimeConfig.cmake
 
 add_subdirectory(src/fort/time)
 
-if(BUILD_DOCS)
+if(FORT_TIME_MAIN AND BUILD_DOCS)
 	add_subdirectory(docs)
-endif(BUILD_DOCS)
+endif(FORT_TIME_MAIN AND BUILD_DOCS)
